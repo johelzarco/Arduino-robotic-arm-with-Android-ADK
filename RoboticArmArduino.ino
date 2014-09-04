@@ -2,7 +2,10 @@
 // Commands to control the robotic arm will be received through USB from an Android App that implements the Android Open Accessory Protocol (https://github.com/johelzarco/Android-RoboticArm)
 // It has been successfully tested with an Arduino Due but it should work with Arduino Mega ADK or any arduino with an USB Host Shield (http://www.circuitsathome.com/)
 // This code uses the USB Host library developed by Oleg Mazurov.
-// You can view this project in more detail in www.bio-robotics.org
+// You can view this project in more detail in http://www.bio-robotics.org
+//
+// Project developed at the BioRobotics Laboratory UNAM http://biorobotics.fi-p.unam.mx/
+
 #include <Servo.h>
 #include "variant.h"
 #include <stdio.h>
