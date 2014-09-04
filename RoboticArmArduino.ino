@@ -1,6 +1,6 @@
 // Arduino code to control a robotic arm of six degrees of freedom made of 7 servo motors and one gearmotor.
 // Commands to control the robotic arm will be received through USB from an Android App that implements the Android Open Accessory Protocol (https://github.com/johelzarco/Android-RoboticArm)
-// It has been tested successfully with Arduino Due and it should work with Arduino Mega ADK or any arduino with an USB Host Shield (http://www.circuitsathome.com/)
+// It has been successfully tested with an Arduino Due but it should work with Arduino Mega ADK or any arduino with an USB Host Shield (http://www.circuitsathome.com/)
 // This code uses the USB Host library developed by Oleg Mazurov.
 // You can view this project in more detail in www.bio-robotics.org
 #include <Servo.h>
@@ -88,6 +88,10 @@ void loop() {
             for (uint32_t i = 0; i < nbread; ++i) {
               s += (char)buf[i];
             }
+            // Depending on the String it receives from the Android device it will move consequently.
+            // For controlling the gripper it will receive open or close and
+            // for the the rest of the servos it will read one string that contains the coordinate to move and one letter to 
+            // identify which servo should spin.
              
             if(s == "open"){
               digitalWrite(led, HIGH);
@@ -95,7 +99,7 @@ void loop() {
             }else if(s == "close"){
               digitalWrite(led, LOW);
               PinzaClose();
-            }else if(s.startsWith(mano)){//mano
+            }else if(s.startsWith(mano)){//hand
               Serial.println(s);
               gX = s;// copia de la string que viene del android
               gX.replace('m', '0');// reemplazamos el caracter diferenciador
@@ -103,7 +107,7 @@ void loop() {
               Serial.println(giroX);
               delay(30);
               manoUno.write(giroX);
-            }else if(s.startsWith(mun)){//muneca
+            }else if(s.startsWith(mun)){//wrist
               Serial.println(s);
               gX = s;
               gX.replace('n', '0');
@@ -111,7 +115,7 @@ void loop() {
               Serial.println(giroX);
               delay(30);
               manoDos.write(giroX);
-            }else if(s.startsWith(ante)){//antebrazo
+            }else if(s.startsWith(ante)){//forearm
               Serial.println(s);
               gX = s;
               gX.replace('a', '0');
@@ -120,7 +124,7 @@ void loop() {
               delay(30);
               anteOne.write(giroX);
               anteTwo.write(giroX);
-            }else if(s.startsWith(bra)){//brazo principal
+            }else if(s.startsWith(bra)){//main arm
               Serial.println(s);
               gX = s;
               gX.replace('b', '0');
@@ -129,7 +133,7 @@ void loop() {
               delay(30);
               mainOne.write(giroX);
               mainTwo.write(giroX);
-            }else if(s == "left"){//brazo completo con el motorreductor, la cadena empieza con "z"
+            }else if(s == "left"){//gearmotor that rotates the whole arm in the Z axis
               Serial.println(s);
               GiroIzq();
             }else if(s == "right"){
