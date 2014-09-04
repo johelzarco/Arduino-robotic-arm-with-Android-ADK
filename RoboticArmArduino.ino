@@ -14,7 +14,7 @@
 // Accessory descriptor. It's how Arduino identifies itself to Android.
 char applicationName[] = "RoboticArm"; // the app on your phone
 char accessoryName[] = "Arduino Due"; // your Arduino board
-char companyName[] = "AppUniversity";
+char companyName[] = "AppUniversity"; // Should match with the accessory filter in you app
   
 char versionNumber[] = "1.0";
 char serialNumber[] = "1";
