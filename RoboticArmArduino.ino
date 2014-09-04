@@ -1,3 +1,8 @@
+// Arduino code to control a robotic arm of six degrees of freedom made of 7 servo motors and one gearmotor.
+// Commands to control the robotic arm will be received through USB from an Android App that implements the Android Open Accessory Protocol (https://github.com/johelzarco/Android-RoboticArm)
+// It has been tested successfully with Arduino Due and it should work with Arduino Mega ADK or any arduino with an USB Host Shield (http://www.circuitsathome.com/)
+// This code uses the USB Host library developed by Oleg Mazurov.
+// You can view this project in more detail in www.bio-robotics.org
 #include <Servo.h>
 #include "variant.h"
 #include <stdio.h>
@@ -8,15 +13,14 @@ char applicationName[] = "RoboticArm"; // the app on your phone
 char accessoryName[] = "Arduino Due"; // your Arduino board
 char companyName[] = "AppUniversity";
   
-// 
 char versionNumber[] = "1.0";
 char serialNumber[] = "1";
+// The arduino will look for your app in this URL in case it's not already installed in your device
 char url[] = "http://bio-robotics.org/androidArduino/RoboticArm.apk";
   
 USBHost Usb;
 ADK adk(&Usb, companyName, applicationName, accessoryName,versionNumber,url,serialNumber);
-  
-// Pin 13 has an LED connected on most Arduino boards.
+ 
 int led = 13;
 Servo mainOne;                  
 Servo mainTwo;
@@ -44,7 +48,7 @@ void setup() {
     manoDos.attach(4);
     anteOne.attach(11);
     anteTwo.attach(12);
-    mainOne.attach(8);  // attaches the servo on pin 9 to the servo object 
+    mainOne.attach(8); 
     mainTwo.attach(9);
     
     pinMode(led, OUTPUT);
@@ -64,11 +68,10 @@ void loop() {
     String gX = "";
     String giZ = "z";
     int giroX = 0;
-    //int difZ = 0;
     
     uint8_t buf[RCVSIZE];
     uint32_t nbread = 0;
-    // Apagar motor
+    // 
     digitalWrite(motorA, LOW);
     digitalWrite(motorB, LOW);
     
